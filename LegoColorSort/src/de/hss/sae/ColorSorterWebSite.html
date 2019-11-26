@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="de">
+	<head>
+		<meta charset="utf-8"/>
+		<title>LeJOS EV3 Color Sorter Web Interface</title>
+		<style>
+			#dropbtn1, #dropbtn2, #dropbtn3, #dropbtn4 {
+				background-color: #f1f1f1;
+				color: black;
+				padding: 16px;
+				font-size: 16px;
+				border: none;
+				cursor: pointer;
+				margin: auto;
+			}
+			#img1, #img2, #img3, #img4 {
+				max-width: 90%;
+				margin: auto;
+				z-index: -1;
+			}
+			.dropdown-content1, .dropdown-content2, .dropdown-content3, .dropdown-content4 {
+				display: none;
+				position: absolute;
+				background-color: #f1f1f1;
+				min-width: 160px;
+				box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+				z-index: 1;
+			}
+			.glass1, .glass2, .glass3, .glass4 {
+				position: relative;
+				display: inline-block;
+				margin-right: 30px;
+				margin-left: 30px;
+				max-width: 20%;
+			}
+			#dropbtn1:hover, #dropbtn1:focus, #dropbtn2:hover, #dropbtn2:focus, #dropbtn3:hover, #dropbtn3:focus, #dropbtn4:hover, #dropbtn4:focus {
+				background-color: #dddddd
+			}
+			.dropdown-content1 p, .dropdown-content2 p, .dropdown-content3 p, .dropdown-content4 p {
+				color: black;
+				padding: 6px 16px;
+				text-decoration: none;
+				display: block;
+				font-size: 15px;
+			}
+			.dropdown-content1 p:hover, .dropdown-content2 p:hover, .dropdown-content3 p:hover, .dropdown-content4 p:hover {
+				background-color: #98FB98
+			}
+			.show1 ,.show2, .show3, .show4 {
+				display:block;
+			}
+			body {
+				background-color: #afb6ff;
+				font-family: Helvetica, Arial, sans-serif;
+			}
+			html {
+				text-align: center;
+			}
+		</style>
+		<script type="text/javascript">
+		"use strict";
+			function dropFunc(btnNum) {
+				document.getElementById("myDropdown" + btnNum).classList.toggle("show" + btnNum);
+			};
+
+			window.onclick = function(event) {
+				if (!event.target.className.matches('btnBody1')) {
+					dropdownShow(1)
+				};
+				if (!event.target.className.matches('btnBody2')) {
+					dropdownShow(2)
+				};
+				if (!event.target.className.matches('btnBody3')) {
+					dropdownShow(3)
+				};
+				if (!event.target.className.matches('btnBody4')) {
+					dropdownShow(4)
+				};
+			};
+			
+			function dropdownShow(dropNum) {
+				let currentDropdownCont = "dropdown-content" + dropNum
+				let dropdowns = document.getElementsByClassName(currentDropdownCont);
+				let i;
+				for (i = 0; i < dropdowns.length; i++) {
+					let openDropdown = dropdowns[i];
+					let currentShow = 'show' + dropNum
+					if (openDropdown.classList.contains(currentShow)) {
+						openDropdown.classList.remove(currentShow);
+					}
+				}
+			};
+
+			function changeColor(dropBtn, color) {
+				let currentButton =  (dropBtn === 1) ? 'dropbtn1' :
+					(dropBtn === 2) ? 'dropbtn2' :
+						(dropBtn === 3) ? 'dropbtn3' :
+							'dropbtn4';
+				let colorValue = (color === 'blue') ? "#3498db" :
+					(color === 'red') ? "#ff0000" :
+						(color === 'green') ? "#488214" :
+							(color === 'yellow') ? "#ffff00" :
+								"#f1f1f1";
+				let otherButtons = [];
+				if (currentButton === 'dropbtn1') {
+					otherButtons = ['dropbtn2', 'dropbtn3', 'dropbtn4'];
+				}
+				else if (currentButton === 'dropbtn2') {
+					otherButtons = ['dropbtn1', 'dropbtn3', 'dropbtn4'];
+				}
+				else if (currentButton === 'dropbtn3') {
+					otherButtons = ['dropbtn1', 'dropbtn2', 'dropbtn4'];
+				}
+				else if (currentButton === 'dropbtn4') {
+					otherButtons = ['dropbtn1', 'dropbtn2', 'dropbtn3'];
+				}
+				document.getElementById(currentButton).style.backgroundColor = colorValue;
+				for (let i = 0; i <= otherButtons.length; i++) {
+					if (getElementColor(otherButtons[i]).localeCompare(colorValue) === 0) {
+						document.getElementById(otherButtons[i]).style.backgroundColor = "#f1f1f1"
+					}
+				}
+			};
+			
+			function commitFunc() {
+				if (checkCompletion()) {
+
+				}
+				else {
+					alert("Bitte allen vier Gläsern eine Farbe zuweisen!")
+				}
+			};
+			
+			function checkCompletion() {
+				let allButtons = ['dropbtn1', 'dropbtn2', 'dropbtn3', 'dropbtn4'];
+				for(let i=0; i<=allButtons.length; i++) {
+					if (getElementColor(allButtons[i]).localeCompare("#f1f1f1") === 0) {
+						return false
+					}
+				}
+				return true
+			};
+			
+			function getElementColor(element) {
+				let colorString = getComputedStyle(document.getElementById(element)).backgroundColor;
+				colorString = colorString.replace('rgb(','');
+				colorString = colorString.replace(')','');
+				let stringArray = colorString.split(",");
+				let r = parseInt(stringArray[0]), g = parseInt(stringArray[1]), b = parseInt(stringArray[2]);
+				let hex = rgbToHex(r, g, b);
+				return '#' + hex
+			}
+			function rgbToHex(r,g,b) {
+				let red = oneRgbToHex(r);
+				let green = oneRgbToHex(g);
+				let blue = oneRgbToHex(b);
+				return red+green+blue;
+			}
+			function oneRgbToHex(c) {
+				let hex = Number(c).toString(16);
+				if (hex.length < 2) {
+					hex = "0" + hex;
+				}
+				return hex;
+			};
+		</script>
+	</head>
+	<body>
+		<h1>Lego Color Sorter</h1>
+		<div class="glasses">
+			<div class="glass1">
+				<h3>Glass 1</h3>
+				<button onclick="dropFunc(1)" class="btnBody1" id="dropbtn1"><img src="glass_empty.png" alt="Glass 1" class="btnBody1" id="img1"></button>
+				<div id="myDropdown1" class="dropdown-content1">
+					<p onclick="changeColor(1,'blue')">Blue</p>
+					<p onclick="changeColor(1,'red')">Red</p>
+					<p onclick="changeColor(1,'green')">Green</p>
+					<p onclick="changeColor(1,'yellow')">Yellow</p>
+				</div>
+			</div>
+			<div class="glass2">
+				<h3>Glass 2</h3>					
+				<button onclick="dropFunc(2)" id="dropbtn2" class="btnBody2"><img src="glass_empty.png" alt="Glass 2" class="btnBody2" id="img2"></button>
+				<div id="myDropdown2" class="dropdown-content2">
+					<p onclick="changeColor(2,'blue')">Blue</p>
+					<p onclick="changeColor(2,'red')">Red</p>
+					<p onclick="changeColor(2,'green')">Green</p>
+					<p onclick="changeColor(2,'yellow')">Yellow</p>
+				</div>
+			</div>
+			<div class="glass3">
+				<h3>Glass 3</h3>
+				<button onclick="dropFunc(3)" id="dropbtn3" class="btnBody3"><img src="glass_empty.png" alt="Glass 3" id="img3" class="btnBody3"></button>
+				<div id="myDropdown3" class="dropdown-content3">
+					<p onclick="changeColor(3,'blue')">Blue</p>
+					<p onclick="changeColor(3,'red')">Red</p>
+					<p onclick="changeColor(3,'green')">Green</p>
+					<p onclick="changeColor(3,'yellow')">Yellow</p>
+				</div>
+			</div>
+			<div class="glass4">
+				<h3>Glass 4</h3>
+				<button onclick="dropFunc(4)" id="dropbtn4" class="btnBody4"><img src="glass_empty.png" alt="Glass 4" id="img4" class="btnBody4"></button>
+				<div id="myDropdown4" class="dropdown-content4">
+					<p onclick="changeColor(4,'blue')">Blue</p>
+					<p onclick="changeColor(4,'red')">Red</p>
+					<p onclick="changeColor(4,'green')">Green</p>
+					<p onclick="changeColor(4,'yellow')">Yellow</p>
+				</div>
+			</div>
+		</div>
+		<button onclick="commitFunc()" id="commitbtn">Start Sorting!</button>
+		<script src="./js/script.js"></script>
+	</body>
+</html>
