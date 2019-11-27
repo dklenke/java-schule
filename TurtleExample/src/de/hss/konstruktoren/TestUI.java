@@ -17,6 +17,12 @@ public class TestUI {
 //		System.out.println(testBuchNoIsbn.toString());
 		Steuern testSteuer = new Steuern("456-132", 100000, false, 0);
 		System.out.println(testSteuer.getInfo());
+
+		Student testStudent = new Student("Dario Klenke", 12345);
+		System.out.println(testStudent.toString());
+		Student testStudent2 = new Student("Oydin Iqbal", 54321, 1, 1997);
+		testStudent2.seminararbeit(14, 9);
+		System.out.println(testStudent2.toString());
 	}
 
 }

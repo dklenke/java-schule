@@ -38,7 +38,7 @@ public class Steuern {
     }
 
     public String getInfo() {
-        String heirat = this.verheiratet == true ? "Ja" : "Nein";
+        String heirat = this.verheiratet ? "Ja" : "Nein";
         int freibetrag = this.verheiratet ? 7500 : 5000;
         for (int i=0;i<this.anzahlKinder;i++){freibetrag += 1000;}
         double zuVersteuern = this.einkommen - freibetrag;
@@ -47,6 +47,6 @@ public class Steuern {
         zuZahlen = Math.floor(zuZahlen * 100) / 100;
         return"Steuernummer: " + this.steuernummer + "\nEinkommen: " + this.einkommen + "\nVerheiratet: " + heirat +
                 "\nanrechenbare Kinder: " + this.anzahlKinder + "\nzu versteuerndes Einkommen: " + zuVersteuern +
-                " D$\nSteuer: " + String.valueOf(zuZahlen);
+                " D$\nSteuer: " + String.valueOf(zuZahlen) + "\n";
     }
 }
