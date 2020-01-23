@@ -20,7 +20,7 @@ public class TestUI {
 
 		Student testStudent = new Student("Dario Klenke", 12345);
 		System.out.println(testStudent.toString());
-		Student testStudent2 = new Student("Oydin Iqbal", 54321, 1, 1997);
+		Student testStudent2 = new Student("Oydin Iqbal", 54321, 1, 1998);
 		testStudent2.seminararbeit(14, 9);
 		System.out.println(testStudent2.toString());
 	}

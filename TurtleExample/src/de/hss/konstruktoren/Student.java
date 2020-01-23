@@ -6,7 +6,7 @@ public class Student {
     private int studienfach = 0;
     private int geburtsjahr = 0;
     private double punkteSeminar;
-    private String[] faecher = new String[] {"---", "Mathematik", "Informatik", "Architektur", "Wirtschaftswissenschaften", "Biologie", "Geschichte", "Germanistik", "Politologie", "Physik"};
+    private String[] faecher = {"---", "Mathematik", "Informatik", "Architektur", "Wirtschaftswissenschaften", "Biologie", "Geschichte", "Germanistik", "Politologie", "Physik"};
 
     public Student(String name, int matrikelnummer) {
         this.name = name;
