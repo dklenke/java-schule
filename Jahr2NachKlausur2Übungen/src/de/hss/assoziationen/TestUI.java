@@ -3,7 +3,6 @@ package de.hss.assoziationen;
 public class TestUI {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		Auto a1 = new Auto("Opel Corsa", "rot");
 		Person p1 = new Person("Heinz");
 		p1.fahren(a1);
