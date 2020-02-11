@@ -1,13 +1,17 @@
 package de.hss.vererbung;
 
+import java.util.ArrayList;
+
 public class TestUI {
 	public static void main(String[] args) {
-		Person hans = new Person("Hans");
-		Lehrer ruhl = new Lehrer("Ruhl","SAE");
-		Schueler dario = new Schueler("Dario","E2FI3");
+		ArrayList<Person> personen = new ArrayList<Person>();
 		
-		System.out.println(hans.kennung());
-		System.out.println(ruhl.kennung());
-		System.out.println(dario.kennung());
+		personen.add(new Person("Hans"));
+		personen.add(new Lehrer("Ruhl","SAE"));
+		personen.add(new Schueler("Dario","E2FI3"));
+		
+		for (Person p : personen) {
+			System.out.println(p.kennung());
+		}
 	}
 }
