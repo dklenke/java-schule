@@ -7,9 +7,10 @@ public class Doppelzimmer extends Mietobjekt {
 		this.halbpension = halbpension;
 	}
 	public double getRechnung() {
+		double grundpreis = (this.getAnzahlPersonen() * 40.0) * this.getAnzahlTage();
 		if (this.halbpension) {
-			return (this.getAnzahlPersonen() * 40.0) * this.getAnzahlTage() + 18.0;
+			return grundpreis + 18.0;
 		}
-		return (this.getAnzahlPersonen() * 40.0) * this.getAnzahlTage();
+		return grundpreis;
 	}
 }
