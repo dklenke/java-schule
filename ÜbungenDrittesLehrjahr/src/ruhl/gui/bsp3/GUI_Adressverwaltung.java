@@ -5,6 +5,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,11 +24,12 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
-public class GUI_Adressverwaltung extends JFrame {
+public class GUI_Adressverwaltung extends JFrame implements WindowListener {
 
 	private JPanel eingabefelder, knoepfe, leftPanel, rightPanel, knopfTop, knopfBot;
 	private JLabel vorLabel, nachLabel, strasLabel, wohnLabel, mailLabel, teleLabel, pageCounter, emptyLabel;
@@ -43,8 +48,9 @@ public class GUI_Adressverwaltung extends JFrame {
 	public GUI_Adressverwaltung() {
 		setTitle("Adressverwaltung"); // Titel setzen.
 		setSize(500, 300); // Grˆﬂe x, y in Pixel festlegen,
-		setDefaultCloseOperation(EXIT_ON_CLOSE); // Anwendung schlieﬂt wenn man oben rechts schlieﬂen dr¸ckt.
-		
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); // Anwendung schlieﬂt wenn man oben rechts schlieﬂen dr¸ckt.
+		addWindowListener(this);
+
 		addTextFields();
 		addNavBtns();
 		addKnoepfe();
@@ -89,6 +95,17 @@ public class GUI_Adressverwaltung extends JFrame {
 
 		saveUndClose.addActionListener(e -> {
 			writeToFile();
+			dispose();
+			System.exit(0);
+		});
+		
+		loeschen.addActionListener(e -> {
+			if (currentEntry != 0) {
+				dataEntries.remove(currentEntry);
+				currentEntry = 0;
+				clearInputFields();
+				updateDataEntriesCounter();
+			}
 		});
 
 		Thread thread = new Thread(new Runnable() {
@@ -111,12 +128,12 @@ public class GUI_Adressverwaltung extends JFrame {
 
 		setVisible(true);
 	}
-	
+
 	private void addKnoepfe() {
 		knoepfe = new JPanel(new GridLayout(2, 1, 5, 10));
 		knopfBot = new JPanel();
 		knopfTop = new JPanel();
-		
+
 		speichern = new JButton("ƒnderungen speichern");
 		speichern.setFocusPainted(false);
 		loeschen = new JButton("Adresse lˆschen");
@@ -125,17 +142,17 @@ public class GUI_Adressverwaltung extends JFrame {
 		hinzu.setFocusPainted(false);
 		saveUndClose = new JButton("Anwendung schlieﬂen und speichern");
 		saveUndClose.setFocusPainted(false);
-		
+
 		knopfTop.add(speichern);
 		knopfTop.add(loeschen);
 		knopfTop.add(hinzu);
 		knopfBot.add(saveUndClose);
-		
+
 		knoepfe.add(knopfTop, BorderLayout.PAGE_START);
 		knoepfe.add(knopfBot, BorderLayout.PAGE_END);
 		add(knoepfe, BorderLayout.PAGE_END);
 	}
-	
+
 	private void addNavBtns() {
 		leftPanel = new JPanel(new GridBagLayout());
 		rightPanel = new JPanel(new GridBagLayout());
@@ -149,7 +166,7 @@ public class GUI_Adressverwaltung extends JFrame {
 		leftBtn.setFocusPainted(false);
 		rightBtn = new JButton(">");
 		rightBtn.setFocusPainted(false);
-		
+
 		GridBagConstraints gc = new GridBagConstraints();
 		gc.fill = GridBagConstraints.HORIZONTAL;
 		gc.ipady = 0; // reset to default
@@ -166,27 +183,39 @@ public class GUI_Adressverwaltung extends JFrame {
 		gc.anchor = GridBagConstraints.PAGE_START;
 		leftPanel.add(emptyLabel, gc);
 		rightPanel.add(pageCounter, gc);
-		
+
 		add(leftPanel, BorderLayout.WEST);
 		add(rightPanel, BorderLayout.EAST);
 	}
-	
+
 	private void addTextFields() {
 		eingabefelder = new JPanel(new GridLayout(6, 2, 5, 5));
-		
+
 		vorLabel = new JLabel("Vorname:");
 		vorText = new JTextArea();
+		vorText.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
+		vorText.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
 		nachLabel = new JLabel("Nachname:");
 		nachText = new JTextArea();
+		nachText.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
+		nachText.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
 		strasLabel = new JLabel("Straﬂe:");
 		strasText = new JTextArea();
+		strasText.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
+		strasText.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
 		wohnLabel = new JLabel("Wohnort:");
 		wohnText = new JTextArea();
+		wohnText.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
+		wohnText.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
 		mailLabel = new JLabel("E-mail:");
 		mailText = new JTextArea();
+		mailText.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
+		mailText.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
 		teleLabel = new JLabel("Telefonnummer:");
 		teleText = new JTextArea();
-		
+		teleText.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
+		teleText.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
+
 		eingabefelder.add(vorLabel);
 		eingabefelder.add(vorText);
 		eingabefelder.add(nachLabel);
@@ -199,7 +228,7 @@ public class GUI_Adressverwaltung extends JFrame {
 		eingabefelder.add(mailText);
 		eingabefelder.add(teleLabel);
 		eingabefelder.add(teleText);
-		
+
 		add(eingabefelder);
 	}
 
@@ -260,8 +289,7 @@ public class GUI_Adressverwaltung extends JFrame {
 					} else {
 						System.out.println("ignoring line: " + entry);
 					}
-				}
-				else {
+				} else {
 					loadedDataEntrys.add(map);
 					map = new HashMap<String, String>();
 				}
@@ -306,8 +334,8 @@ public class GUI_Adressverwaltung extends JFrame {
 	private void writeToFile() {
 		try {
 			File f = new File("savedata.txt");
-			if(!f.exists()) { 
-			    f.createNewFile();
+			if (!f.exists()) {
+				f.createNewFile();
 			}
 			PrintWriter myWriter = new PrintWriter("savedata.txt");
 			for (HashMap<String, String> m : dataEntries) {
@@ -323,4 +351,51 @@ public class GUI_Adressverwaltung extends JFrame {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		int option = JOptionPane.showOptionDialog(GUI_Adressverwaltung.this, "Sind sie sicher, dass sie schlieﬂen wollen ohne zu speichern?", "Exit Dialog",
+				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+		if( option == JOptionPane.YES_OPTION ) {  
+            System.exit( 0 );  
+        } 
+
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
