@@ -6,21 +6,15 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.KeyboardFocusManager;
-import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -120,6 +114,7 @@ public class GUI_Adressverwaltung extends JFrame implements WindowListener {
 					}
 					checkHinzuSpeicherBtn();
 					checkLoeschBtn();
+					checkNavBtns();
 				}
 			}
 
@@ -240,6 +235,21 @@ public class GUI_Adressverwaltung extends JFrame implements WindowListener {
 		}
 	}
 
+	private void checkNavBtns() {
+		if (currentEntry == 0) {
+			leftBtn.setEnabled(false);
+			rightBtn.setEnabled(true);
+		}
+		else if (currentEntry == dataEntries.size()-1) {
+			rightBtn.setEnabled(false);
+			leftBtn.setEnabled(true);
+		}
+		else {
+			leftBtn.setEnabled(true);
+			rightBtn.setEnabled(true);
+		}
+	}
+	
 	private void clearInputFields() {
 		vorText.setText("");
 		nachText.setText("");
