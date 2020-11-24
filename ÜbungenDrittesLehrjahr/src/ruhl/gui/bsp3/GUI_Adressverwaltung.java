@@ -25,13 +25,13 @@ import javax.swing.border.EmptyBorder;
 
 public class GUI_Adressverwaltung extends JFrame implements WindowListener {
 
-	private JPanel eingabefelder, knoepfe, leftPanel, rightPanel, knopfTop, knopfBot;
-	private JLabel vorLabel, nachLabel, strasLabel, wohnLabel, mailLabel, teleLabel, pageCounter, emptyLabel;
-	private JTextArea vorText, nachText, strasText, wohnText, mailText, teleText;
-	private JButton leftBtn, rightBtn, speichern, loeschen, hinzu, saveUndClose;
+	protected JPanel eingabefelder, knoepfe, leftPanel, rightPanel, knopfTop, knopfBot;
+	protected JLabel vorLabel, nachLabel, strasLabel, wohnLabel, mailLabel, teleLabel, pageCounter, emptyLabel;
+	protected JTextArea vorText, nachText, strasText, wohnText, mailText, teleText;
+	protected JButton leftBtn, rightBtn, speichern, loeschen, hinzu, saveUndClose;
 
-	private int currentEntry = 0;
-	private ArrayList<HashMap<String, String>> dataEntries = loadDataEntries();
+	protected int currentEntry = 0;
+	protected ArrayList<HashMap<String, String>> dataEntries = loadDataEntries();
 
 	// Startpunkt
 	public static void main(String[] args) {
@@ -44,28 +44,14 @@ public class GUI_Adressverwaltung extends JFrame implements WindowListener {
 		setSize(500, 300); // Größe x, y in Pixel festlegen,
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); // Anwendung schließt wenn man oben rechts schließen drückt.
 		addWindowListener(this);
+		
+		Steuerung st = new Steuerung();
 
 		addTextFields();
 		addNavBtns();
 		addKnoepfe();
 
-		hinzu.addActionListener(e -> {
-			HashMap<String, String> newEntry = new HashMap<String, String>() {
-				{
-					put("vorname", vorText.getText());
-					put("nachname", nachText.getText());
-					put("strasse", strasText.getText());
-					put("wohnort", wohnText.getText());
-					put("email", mailText.getText());
-					put("telefon", teleText.getText());
-				}
-			};
-			dataEntries.add(newEntry);
-			updateDataEntriesCounter();
-			clearInputFields();
-			currentEntry = 0;
-			updateDataEntriesCounter();
-		});
+		hinzu.addActionListener(e -> {st.hinzufuegen(this);});
 
 		rightBtn.addActionListener(e -> {
 			if (currentEntry == dataEntries.size() - 1) {
