@@ -44,7 +44,7 @@ public class Db4oTestMain implements Util{
 //				}
 //			});
 //			listSchueler("Alle Datensätze deren Nachname ein Doppelnachname ist:", s);
-			leihen(new Schueler("Mark", null, null), new Buch(9, null, null), db);
+			leihen("Mark", 9, db);
 			List<Ausleihe> s = db.query(Ausleihe.class);
 			System.out.println("Alle Ausleihen: " + s.size());
 			for (int i = 0; i < s.size(); i++) {
@@ -119,12 +119,12 @@ public class Db4oTestMain implements Util{
 		}
 	}
 	
-	private static void leihen(Schueler s, Buch b, ObjectContainer db) {
-		ObjectSet<Object> searchSchueler = db.queryByExample(s);
-		ObjectSet<Object> searchBuch = db.queryByExample(b);
+	private static void leihen(String vorname, int bid, ObjectContainer db) {
+		ObjectSet<Object> searchSchueler = db.queryByExample(new Schueler(vorname, null, null));
+		ObjectSet<Object> searchBuch = db.queryByExample(new Buch(bid, null, null));
 		if (searchSchueler.hasNext()) {
 			if (searchBuch.hasNext()) {
-				Ausleihe neueAusleihe = new Ausleihe(b, s, 6);
+				Ausleihe neueAusleihe = new Ausleihe((Buch) searchBuch.next(), (Schueler) searchSchueler.next(), 6);
 				db.store(neueAusleihe);
 				db.commit();
 			}
