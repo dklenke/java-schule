@@ -18,37 +18,44 @@ public class Db4oTestMain implements Util{
 			deleteDB(db);
 			populateDB(db);
 
-//			// Alle Datensätze ausgeben -----------------------------------------------//
-//			List<Schueler> s = db.query(Schueler.class);
-//			listSchueler("Alle Datensätze:", s);
-//
-//			// Native Query -- alle Schüler, deren Nachname mit M beginnt -------------//
-//			s = db.query(new Predicate<Schueler>() {
-//				public boolean match(Schueler schueler) {
-//					return schueler.getNachname().startsWith("M");
-//				}
-//			});
+			// Alle Datensätze ausgeben -----------------------------------------------//
+			List<Schueler> s = db.query(Schueler.class);
+			listSchueler("Alle Datensätze:", s);
+
+			// Native Query -- alle Schüler, deren Nachname mit M beginnt -------------//
+			s = db.query(new Predicate<Schueler>() {
+				private static final long serialVersionUID = 1L;
+
+				public boolean match(Schueler schueler) {
+					return schueler.getNachname().startsWith("M");
+				}
+			});
 //			listSchueler("Alle Datensätze deren Nachname mit M startet:", s);
-//
-//			s = db.query(new Predicate<Schueler>() {
-//				public boolean match(Schueler schueler) {
-//					return Util.containsIgnoreCase(schueler.getNachname(), "merT");
-//				}
-//			});
+
+			s = db.query(new Predicate<Schueler>() {
+				private static final long serialVersionUID = 1L;
+
+				public boolean match(Schueler schueler) {
+					return Util.containsIgnoreCase(schueler.getNachname(), "merT");
+				}
+			});
 //			listSchueler("Alle Datensätze deren Nachname \"merT\" enthält:", s);
-//			
-//			s = db.query(new Predicate<Schueler>() {
-//				public boolean match(Schueler schueler) {
-//					//return schueler.getNachname().matches("^((?!.*von.*).*[- ]+.*)$");
-//					return altDoppelNameCheck(schueler.getNachname());
-//				}
-//			});
+			
+			s = db.query(new Predicate<Schueler>() {
+
+				private static final long serialVersionUID = 1L;
+
+				public boolean match(Schueler schueler) {
+					//return schueler.getNachname().matches("^((?!.*von.*).*[- ]+.*)$");
+					return altDoppelNameCheck(schueler.getNachname());
+				}
+			});
 //			listSchueler("Alle Datensätze deren Nachname ein Doppelnachname ist:", s);
 			leihen("Mark", 9, db);
-			List<Ausleihe> s = db.query(Ausleihe.class);
-			System.out.println("Alle Ausleihen: " + s.size());
-			for (int i = 0; i < s.size(); i++) {
-				System.out.println(s.get(i).toString());
+			List<Ausleihe> a = db.query(Ausleihe.class);
+			System.out.println("Alle Ausleihen: " + a.size());
+			for (int i = 0; i < a.size(); i++) {
+				System.out.println(a.get(i).toString());
 			}
 			
 
@@ -95,7 +102,8 @@ public class Db4oTestMain implements Util{
 	private static void deleteDB(ObjectContainer db) {
 		// Alle Datensätze löschen ----------------------------------------------- //
 		Query query = db.query();
-		ObjectSet set = query.execute();
+		@SuppressWarnings("unchecked")
+		ObjectSet<Object> set = query.execute();
 
 		while (set.hasNext()) {
 			db.delete(set.next());
@@ -124,7 +132,7 @@ public class Db4oTestMain implements Util{
 		ObjectSet<Object> searchBuch = db.queryByExample(new Buch(bid, null, null));
 		if (searchSchueler.hasNext()) {
 			if (searchBuch.hasNext()) {
-				Ausleihe neueAusleihe = new Ausleihe((Buch) searchBuch.next(), (Schueler) searchSchueler.next(), 6);
+				Ausleihe neueAusleihe = new Ausleihe((Buch) searchBuch.next(), (Schueler) searchSchueler.next());
 				db.store(neueAusleihe);
 				db.commit();
 			}

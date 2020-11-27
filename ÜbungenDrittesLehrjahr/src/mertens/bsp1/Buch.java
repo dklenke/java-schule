@@ -1,7 +1,5 @@
 package mertens.bsp1;
 
-import java.time.LocalDate;
-
 public class Buch {
 	private int buchID;
 	private String titel;
@@ -11,5 +9,10 @@ public class Buch {
 		this.buchID = buchID;
 		this.autor =  autor;
 		this.titel = titel;
+	}
+
+	@Override
+	public String toString() {
+		return "Buch [buchID=" + buchID + ", titel=" + titel + ", autor=" + autor + "]";
 	}
 }

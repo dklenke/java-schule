@@ -1,18 +1,31 @@
 package mertens.bsp1;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Ausleihe {
 	private Buch buch;
 	private Schueler schueler;
-	private LocalDate entleihDatum;
-	private LocalDate rueckgabeDatum;
+	private LocalDateTime entleihDatum;
+	private LocalDateTime rueckgabeDatum;
 	
-	public Ausleihe(Buch buch, Schueler schueler, int rueckgabeTage) {
+	public Ausleihe(Buch buch, Schueler schueler) {
 		super();
 		this.buch = buch;
 		this.schueler = schueler;
-		this.entleihDatum = LocalDate.now();
-		this.rueckgabeDatum = LocalDate.now().plusDays(rueckgabeTage);
+		this.entleihDatum = LocalDateTime.now();
+	}
+
+	public LocalDateTime getRueckgabeDatum() {
+		return rueckgabeDatum;
+	}
+
+	public void setRueckgabeDatum(LocalDateTime rueckgabeDatum) {
+		this.rueckgabeDatum = rueckgabeDatum;
+	}
+
+	@Override
+	public String toString() {
+		return "Ausleihe [buch=" + buch + ", schueler=" + schueler + ", entleihDatum=" + entleihDatum
+				+ ", rueckgabeDatum=" + rueckgabeDatum + "]";
 	}
 }
