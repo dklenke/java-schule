@@ -9,7 +9,7 @@ public class Caesar {
 	}
 	
 	public String encrypt(String in) {
-		in = in.toUpperCase().replace("Ä", "AE").replace("Ö", "OE").replace("Ü", "UE");
+		in = in.toUpperCase().replace("Ã„", "AE").replace("Ã–", "OE").replace("Ãœ", "UE");
 		String out = "";
 		for (int i = 0; i < in.length(); i++) {
 			char x = in.charAt(i);
@@ -20,7 +20,7 @@ public class Caesar {
 	}
 	
 	public String decrypt(String in) {
-		in = in.toUpperCase().replace("Ä", "AE").replace("Ö", "OE").replace("Ü", "UE");
+		in = in.toUpperCase().replace("Ã„", "AE").replace("Ã–", "OE").replace("Ãœ", "UE");
 		String out = "";
 		for (int i = 0; i < in.length(); i++) {
 			char x = in.charAt(i);
